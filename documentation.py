@@ -1,9 +1,20 @@
 import google.generativeai as genai
-from telegram.ext import ApplicationBuilder, MessageHandler, filters
+import os
+import asyncio  # Убедитесь, что asyncio импортирован
+from telegram import Update
+from telegram.ext import Updater, CallbackContext, ApplicationBuilder, MessageHandler, filters, CommandHandler
+from dotenv import load_dotenv
+
+# Загрузка переменных из .env
+load_dotenv()
+
+TELEGRAM_TOKEN = os.getenv("TELEGRAM_TOKEN")
+GEMINI_API_KEY = os.getenv("GEMINI_API_KEY")
+
 
 # Настройка Gemini SDK
-genai.configure(api_key="AIzaSyDt-LMAgZxH9a2qq3qWu_I7_aoGbTKQ7m0")
-model = genai.GenerativeModel("gemini-1.5-flash", system_instruction="You are a chatbot designed to assist employees with questions about their company. Your name is Astro. Provide clear, concise, and accurate answers based on the company's provided data. If you encounter a question outside your knowledge base, respond with: 'I'm not sure about this. Please send your question to contact@jonik.ai, and someone will assist you shortly.'")
+genai.configure(api_key=GEMINI_API_KEY)
+model = genai.GenerativeModel("gemini-1.5-flash", system_instruction="You are a chatbot designed to assist employees with questions about their company. Your name is Astro. Provide clear, concise, and accurate answers based on the company's provided data. If you know the answer to a question without needing the knowledge base, feel free to answer directly. If you encounter a question outside your knowledge base, respond by saying you're unsure about this information and provide company contacts for further assistance. If you receive audio messages, simply repeat the content of the audio word for word.")
 
 # История чата с информацией о компании
 company_info = [
@@ -28,6 +39,8 @@ company_info = [
   {"role": "user", "parts": "Штаб-квартира NovaTech находится в Самарканде, а региональные офисы расположены в Европе и Азии."}
 ]
 
+async def start(update, context):
+    await update.message.reply_text("Привет! Я Astro, ваш AI-ассистент. Задайте мне вопрос.")
 
 # Функция для обращения к Gemini API через SDK
 async def handle_message(update, context):
@@ -45,13 +58,49 @@ async def handle_message(update, context):
     # Отправляем ответ пользователю
     await update.message.reply_text(bot_response)
 
+
+async def handle_voice(update: Update, context: CallbackContext) -> None:
+    voice = update.message.voice
+
+    if voice:
+        # Скачиваем файл (асинхронно)
+        file_id = voice.file_id
+        file = await context.bot.get_file(file_id)  # Добавлено await
+        file_path = os.path.join("downloads/", f"tmp_audio.ogg")
+        await file.download_to_drive(file_path)  # Используем download_to_drive для сохранения
+
+        myfile = genai.upload_file("downloads/tmp_audio.ogg")
+
+        chat = model.start_chat(history=company_info)
+        
+        result = model.generate_content(
+            [myfile, "\n\n", "repeat the content of the audio word for word"]
+        )
+        print(f"{result.text=}")
+
+        response = chat.send_message(result.text)
+        
+        bot_response = response.text
+
+        # Отправляем сообщение пользователю
+        await update.message.reply_text(bot_response)
+
+        # Удаляем файл после обработки
+        os.remove(file_path)
+    
+
 # Главная функция для запуска бота
 def main():
     # Создание приложения бота
-    application = ApplicationBuilder().token("8032267077:AAFzehWCIdaNAqPRlAM9L-KsRXBJotJlAxE").build()
-
+    application = ApplicationBuilder().token(TELEGRAM_TOKEN).build()
+    
+    application.add_handler(CommandHandler("start", start))
+    
     # Обработчик текстовых сообщений
     application.add_handler(MessageHandler(filters.TEXT & ~filters.COMMAND, handle_message))
+
+    # Обработчик аудиосообщений
+    application.add_handler(MessageHandler(filters.VOICE, handle_voice))
 
     # Запуск бота
     print("Бот запущен!")
