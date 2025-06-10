@@ -78,29 +78,31 @@ client = TelegramClient("session_name", api_id, api_hash)
 async def handler(event):
     if event.is_private or (event.chat_id == target_chat_id):
         user_input = event.message.message.strip()
+
+        # ⛔ Пропускаем пустые сообщения
+        if not user_input:
+            return
+
         user_id = event.sender_id
 
-        # Обновляем или создаем чат
         if user_id not in user_chats:
             chat = model.start_chat(history=company_info)
             user_chats[user_id] = chat
         else:
             chat = user_chats[user_id]
 
-        # Обновляем время последней активности
         user_last_active[user_id] = datetime.now()
 
-        # Обработка запроса
         try:
             response = chat.send_message(user_input)
             bot_response = response.text.strip()
         except Exception as e:
-            await event.reply("Произошла ошибка при обращении к AI.")
             print(f"[Gemini Error]: {e}")
             return
 
-        if "Вне контекста" not in bot_response:
+        if bot_response != "Вне контекста":
             await event.reply(bot_response)
+
 
 # 🕒 Фоновая задача для очистки старых чатов
 async def clean_old_chats():
