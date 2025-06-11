@@ -80,6 +80,11 @@ user_last_active = {}     # user_id: datetime
 # Клиент Telethon
 client = TelegramClient("session_name", api_id, api_hash)
 
+async def send_reply(event, text):
+    MAX_MESSAGE_LENGTH = 4096
+    for i in range(0, len(text), MAX_MESSAGE_LENGTH):
+        await event.reply(text[i:i + MAX_MESSAGE_LENGTH])
+
 @client.on(events.NewMessage)
 async def handler(event):
     if event.is_private or (event.chat_id == target_chat_id):
@@ -116,7 +121,7 @@ async def handler(event):
             return
 
         if "__IGNORE__" not in bot_response:
-            await event.reply(bot_response)
+            await send_reply(event, bot_response)
 
 
 # 🕒 Фоновая задача для очистки старых чатов
