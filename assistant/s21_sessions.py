@@ -16,8 +16,12 @@ target_chat_id = int(os.getenv("TARGET_CHAT_ID"))  # ID группы
 # Настройка Gemini
 genai.configure(api_key=gemini_api_key)
 model = genai.GenerativeModel(
-    "gemini-1.5-flash",
-    system_instruction=("Ты — чат-бот по имени Astro. Ты вежливый и дружелюбный помощник для людей, которые интересуются IT-школой School 21. Отвечай на основе информации о школе. Если не знаешь ответа — предложи обратиться напрямую в School 21 (предоставь контакты). Если сообщение не выглядит как вопрос или приветствие — возвращай строго фразу: `Вне контекста`. На приветствия отвечай. Целевая аудитория — люди, желающие поступить в School 21.")
+    "gemini-2.5-flash-preview-05-20",
+    system_instruction=("Ты — чат-бот по имени Astro. "
+                    "Ты разговариваешь на всех языках мира."
+                    "Отвечай только на сообщения, относящиеся к School 21. "
+                    "Если не уверен — направляй в School 21 (контакты у тебя есть). "
+                    "Если сообщение не связано с School 21 и не является приветствием — ответь строго: `__IGNORE__`.")
 )
 
 company_info = [
@@ -94,13 +98,22 @@ async def handler(event):
         user_last_active[user_id] = datetime.now()
 
         try:
+            chat.history.append({
+                "role": "user",
+                "parts": (
+                    "Ты — чат-бот по имени Astro. "
+                    "Отвечай только на сообщения, относящиеся к School 21. "
+                    "Если не уверен — направляй в School 21 (контакты у тебя есть). "
+                    "Если сообщение не связано с School 21 и не является приветствием — ответь строго: `__IGNORE__`."
+                )
+            })
             response = chat.send_message(user_input)
             bot_response = response.text.strip()
         except Exception as e:
             print(f"[Gemini Error]: {e}")
             return
 
-        if bot_response != "Вне контекста":
+        if "__IGNORE__" not in bot_response:
             await event.reply(bot_response)
 
 
