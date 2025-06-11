@@ -20,7 +20,7 @@ model = genai.GenerativeModel(
     system_instruction=("Ты — чат-бот по имени Astro. "
                     "Ты разговариваешь на всех языках мира."
                     "Отвечай только на сообщения, относящиеся к School 21. "
-                    "Если не уверен — направляй в School 21 (контакты у тебя есть). "
+                    "Если не уверен — направляй в School 21 (контакты у тебя есть) и к саппорту @Zoidov_Zafarjon. "
                     "Если сообщение не связано с School 21 и не является приветствием — ответь строго: `__IGNORE__`.")
 )
 
@@ -31,7 +31,7 @@ company_info = [
   {"role": "user", "parts": "На связи в будни с 10:00 до 19:00."},
   {"role": "user", "parts": "Ташкент, ул. Зиёлилар, 13. (https://yandex.uz/maps/10335/tashkent/house/YkAYdQRlQEUPQFprfX9yeXhnZQ==/?ll=69.334606%2C41.338502&z=17) Ориентир Университет Инха, +998 93 039 4447, tashkent@21-school.uz."},
   {"role": "user", "parts": "Самарканд, ул.Ибн Сино, 17a (https://yandex.ru/maps/org/30165667494), +998930394442,  samarkand@21-school.uz."},
-  {"role": "user", "parts": "Зарегистрироваться можно на сайте 21-school.uz (https://21-school.uz/ru/?utm_source=tg&utm_medium=social-organic)."},
+  {"role": "user", "parts": "Зарегистрироваться можно на сайте 21-school.uz (https://21-school.uz/?utm_source=school21&utm_medium=student_tas&utm_campaign=smedleya)."},
   {"role": "user", "parts": "Личный кабинет (https://applicant.21-school.uz/)."},
   {"role": "user", "parts": "По административным вопросам - uzbekistan@21-school.uz ,+998 93 039 5553"},
   
@@ -69,7 +69,9 @@ company_info = [
   {"role": "user", "parts": "Могут ли граждане других стран учиться: Да, конечно. У нас нет ограничения на прием участников с любым гражданством. Все визовые вопросы участники решают самостоятельно."},
   {"role": "user", "parts": "Сколько раз можно поступать: У тебя одна попытка – не упусти ее!"},
   {"role": "user", "parts": "Есть ли пошаговая инструкция поступления: https://strapi.21-school.uz/uploads/entrance_guide_21_06_24_7d02c823a6.pdf?roistat_visit=2580615"},
-  {"role": "user", "parts": "Ссылки: Telegram - https://t.me/skd21school?roistat_visit=2580615, Instagram - https://www.instagram.com/school.21_uz?roistat_visit=2580615, Youtube - https://www.youtube.com/@School21.Uzbekistan?roistat_visit=2580615, LinkedIn - https://www.linkedin.com/company/digital-engineering-school-21?roistat_visit=2580615, Facebook - https://www.facebook.com/share/AvKQEzG9asoC3Epd/?mibextid=JRoKGi&roistat_visit=2580615 ."},{"role": "user", "parts": "Бассейн это интенсив."}
+  {"role": "user", "parts": "Ссылки: Telegram - https://t.me/skd21school?roistat_visit=2580615, Instagram - https://www.instagram.com/school.21_uz?roistat_visit=2580615, Youtube - https://www.youtube.com/@School21.Uzbekistan?roistat_visit=2580615, LinkedIn - https://www.linkedin.com/company/digital-engineering-school-21?roistat_visit=2580615, Facebook - https://www.facebook.com/share/AvKQEzG9asoC3Epd/?mibextid=JRoKGi&roistat_visit=2580615 ."},
+  {"role": "user", "parts": "Бассейн это интенсив."}
+  {"role": "user", "parts": "@Zoidov_Zafarjon (Zoidov Zafarjon)- лучший саппорт к которому можно обратиться с любыми вопросами."}
 ]
 # Храним чаты и отметки времени
 user_chats = {}           # user_id: chat
@@ -103,7 +105,7 @@ async def handler(event):
                 "parts": (
                     "Ты — чат-бот по имени Astro. "
                     "Отвечай только на сообщения, относящиеся к School 21. "
-                    "Если не уверен — направляй в School 21 (контакты у тебя есть). "
+                    "Если не уверен — направляй в School 21 (контакты у тебя есть) и к саппорту @Zoidov_Zafarjon. "
                     "Если сообщение не связано с School 21 и не является приветствием — ответь строго: `__IGNORE__`."
                 )
             })
