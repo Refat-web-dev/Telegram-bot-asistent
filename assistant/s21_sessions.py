@@ -31,7 +31,7 @@ company_info = [
   {"role": "user", "parts": "На связи в будни с 10:00 до 19:00."},
   {"role": "user", "parts": "Ташкент, ул. Зиёлилар, 13. (https://yandex.uz/maps/10335/tashkent/house/YkAYdQRlQEUPQFprfX9yeXhnZQ==/?ll=69.334606%2C41.338502&z=17) Ориентир Университет Инха, +998 93 039 4447, tashkent@21-school.uz."},
   {"role": "user", "parts": "Самарканд, ул.Ибн Сино, 17a (https://yandex.ru/maps/org/30165667494), +998930394442,  samarkand@21-school.uz."},
-  {"role": "user", "parts": "Зарегистрироваться можно на сайте 21-school.uz (https://21-school.uz/?utm_source=school21&utm_medium=student_tas&utm_campaign=smedleya)."},
+  {"role": "user", "parts": "Зарегистрироваться можно на сайте School 21 (https://21-school.uz/?utm_source=school21&utm_medium=student_tas&utm_campaign=smedleya)."},
   {"role": "user", "parts": "Личный кабинет (https://applicant.21-school.uz/)."},
   {"role": "user", "parts": "По административным вопросам - uzbekistan@21-school.uz ,+998 93 039 5553"},
   
