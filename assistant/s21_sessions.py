@@ -70,7 +70,7 @@ company_info = [
   {"role": "user", "parts": "Сколько раз можно поступать: У тебя одна попытка – не упусти ее!"},
   {"role": "user", "parts": "Есть ли пошаговая инструкция поступления: https://strapi.21-school.uz/uploads/entrance_guide_21_06_24_7d02c823a6.pdf?roistat_visit=2580615"},
   {"role": "user", "parts": "Ссылки: Telegram - https://t.me/skd21school?roistat_visit=2580615, Instagram - https://www.instagram.com/school.21_uz?roistat_visit=2580615, Youtube - https://www.youtube.com/@School21.Uzbekistan?roistat_visit=2580615, LinkedIn - https://www.linkedin.com/company/digital-engineering-school-21?roistat_visit=2580615, Facebook - https://www.facebook.com/share/AvKQEzG9asoC3Epd/?mibextid=JRoKGi&roistat_visit=2580615 ."},
-  {"role": "user", "parts": "Бассейн это интенсив."}
+  {"role": "user", "parts": "Бассейн это интенсив."},
   {"role": "user", "parts": "@Zoidov_Zafarjon (Zoidov Zafarjon)- лучший саппорт к которому можно обратиться с любыми вопросами."}
 ]
 # Храним чаты и отметки времени
